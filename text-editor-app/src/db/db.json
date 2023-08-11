@@ -1,0 +1,16 @@
+{
+    "users": [
+        {
+            "id": "k2000",
+            "firstName": "Kevin",
+            "lastName": "Leslie",
+            "password": "Kl123456"
+        }
+    ],
+    "documents": [
+        {
+            "id": 1,
+            "desc": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus eprehenderit quas nam! Sed, possimus nihil rerum dignissimos alias deserunt? Aliquid susciped, possimus nihil rerum dignissimos alias deserunt? Aliquid suscipit"
+        }
+    ]
+}

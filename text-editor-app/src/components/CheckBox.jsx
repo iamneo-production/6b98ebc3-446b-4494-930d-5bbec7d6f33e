@@ -1,0 +1,48 @@
+import {
+    Checkbox,
+    FormControl,
+    FormControlLabel,
+    FormGroup,
+    FormLabel,
+  } from "@mui/material";
+  // import { useField, useFormikContext } from "formik";
+  import React from "react";
+  // import "../../../pages/authentication/styles.css";
+  
+  const CheckBox = ({ name, label, legend, ...otherProps }) => {
+    //   const { setFieldValue } = useFormikContext();
+    //   const [field, meta] = useField(name);
+  
+    //   const handleChange = (evt) => {
+    //     const { checked } = evt.target;
+    //     setFieldValue(name, checked);
+    //   };
+  
+    const configCheckbox = {
+      // ...field,
+      className: "purple",
+      // onChange: handleChange,
+    };
+  
+    //   const configFormControl = {};
+    //   if (meta && meta.touched && meta.error) {
+    //     configFormControl.error = true;
+    //   }
+  
+    return (
+      <FormControl
+      //  {...configFormControl}
+      >
+        <FormLabel component="legend">{legend}</FormLabel>
+        <FormGroup>
+          <FormControlLabel
+            control={<Checkbox {...configCheckbox} />}
+            label={label}
+          />
+        </FormGroup>
+      </FormControl>
+    );
+  };
+  
+  export default CheckBox;
+  
