@@ -4,7 +4,7 @@ import Container from "@mui/material/Container";
 import Toolbar from "@mui/material/Toolbar";
 import { Box, Button, IconButton, Tooltip, Typography } from "@mui/material";
 import { LogoutOutlined } from "@mui/icons-material";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -17,7 +17,7 @@ const Navbar = () => {
   // }, []);
 
   return (
-    <AppBar position="static">
+    <AppBar position="static" sx={{ backgroundColor: "#fff" }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Typography
@@ -29,31 +29,46 @@ const Navbar = () => {
               mr: 2,
               display: { xs: "flex" },
               flexGrow: 1,
-              fontWeight: 700,
-              letterSpacing: ".3rem",
-              color: "inherit",
+              fontSize: "15px",
+              fontWeight: 800,
+              letterSpacing: ".2rem",
+              color: "#494995",
               textDecoration: "none",
             }}
           >
             Text Editor
           </Typography>
-
-          <Box sx={{ flexGrow: 0, display: "flex" }}>
-            <Button
-              onClick={() => navigate("/")}
-              sx={{ my: 2, color: "white", display: "block" }}
+          <Box sx={{ flexGrow: 0, display: "flex", gap: "2rem", mr: "1rem" }}>
+            <Link
+              to={"/"}
+              style={{
+                my: 2,
+                color: "#706fec",
+                display: "block",
+                textDecoration: "none",
+              }}
             >
               Home
-            </Button>
-            <Button
-              onClick={() => navigate("/view-all-documents")}
-              sx={{ my: 2, color: "white", display: "block" }}
+            </Link>
+            <Link
+              to={"/view-all-documents"}
+              style={{
+                my: 2,
+                color: "#706fec",
+                display: "block",
+                textDecoration: "none",
+              }}
             >
               All Documents
-            </Button>
+            </Link>
+          </Box>
+          <Box sx={{ flexGrow: 0, display: "flex" }}>
             <Tooltip title="Logout">
-              <IconButton onClick={() => navigate("/login")}>
-                <LogoutOutlined sx={{ color: "#fff" }} />
+              <IconButton
+                onClick={() => navigate("/login")}
+                // sx={{ display: "block" }}
+              >
+                <LogoutOutlined sx={{ color: "#706fec" }} />
               </IconButton>
             </Tooltip>
           </Box>

@@ -33,30 +33,24 @@ const DocumentList = ({ handleEditClicked }) => {
 
       <Divider />
       <Box mt="0.5rem" display="flex" flexDirection="column" gap="0.75rem">
-        <Box padding="0.5rem" border="1px solid #5a5a5a" borderRadius="0.5rem">
-          <Typography fontSize="12px" color="#5a5a5a">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus
-            reprehenderit quas nam! Sed, possimus nihil rerum dignissimos alias
-            deserunt? Aliquid susciped, possimus nihil rerum dignissimos alias
-            deserunt? Aliquid suscipit
-            <FlexEnd>
-              <IconButton>
-                <EditOutlined fontSize="small" />
-              </IconButton>
-            </FlexEnd>
+        <Box padding="1rem" border="1px solid #b5b5b5" borderRadius="0.5rem">
+          <Typography mb="0.5rem" fontSize="14px" fontWeight="600">
+            Document Title
           </Typography>
-        </Box>
-        <Box padding="0.5rem" border="1px solid #5a5a5a" borderRadius="0.5rem">
-          <Typography fontSize="12px" color="#5a5a5a">
+          <Typography
+            maxHeight="3.2rem"
+            fontSize="12px"
+            color="#5a5a5a"
+            overflow="hidden"
+          >
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus
-            reprehenderited, possimus nihil rerum dignissimos alias deserunt?
-            Aliquid suscip quas nam! Sed, possimus nihil rerum dignissimos alias
-            deserunt? Aliquid suscipit
+            reprehenderit quas nam! Sed,ipisicing elit. Accusamus reprehenderit
+            quas nam! Sed,
           </Typography>
           <FlexEnd>
-            <IconButton onClick={handleEditClicked}>
-              <EditOutlined fontSize="small" />
-            </IconButton>
+            <PrimaryButton variant="outlined" size="small">
+              Edit
+            </PrimaryButton>
           </FlexEnd>
         </Box>
       </Box>

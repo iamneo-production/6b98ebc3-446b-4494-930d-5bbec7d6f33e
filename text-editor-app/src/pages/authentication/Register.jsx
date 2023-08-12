@@ -1,28 +1,23 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { Form, Formik } from "formik";
+import { Form, Formik, useFormik } from "formik";
 import * as Yup from "yup";
 import TextBox from "../../components/TextBox";
 import PrimaryButton from "../../components/PrimaryButton";
 import {
+  Alert,
   Box,
   Container,
   CssBaseline,
   Divider,
   Grid,
+  TextField,
   Typography,
 } from "@mui/material";
 import CheckBox from "../../components/CheckBox";
 
-const INITIAL_FORM_STATE = {
-  email: "",
-  password: "",
-  confirmPassword: "",
-  termsOfService: false,
-};
-
-const FORM_VALIDATION = Yup.object().shape({
+const validationSchema = Yup.object().shape({
   email: Yup.string()
     .email("Please enter a valid email.")
     .required("This field is required*"),
@@ -32,8 +27,8 @@ const FORM_VALIDATION = Yup.object().shape({
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
       "Your password must contain 8 Characters, One Uppercase, One Lowercase, One Number, and One Special Case Character"
     ),
-  confirm_password: Yup.string()
-    .required("Please enter your password.")
+  confirmPassword: Yup.string()
+    .required("Please confirm your password.")
     .oneOf([Yup.ref("password"), null], "Passwords must match"),
   termsOfService: Yup.boolean()
     .oneOf([true], "Please read and agree to the terms and conditions.")
@@ -42,35 +37,66 @@ const FORM_VALIDATION = Yup.object().shape({
 
 const Register = () => {
   const [id, setId] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
   const [password, setPassword] = useState("");
-
-  // const [showAlert, setShowAlert] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertMsg, setAlertMsg] = useState("");
+  const [severity, setSeverity] = useState("");
 
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
-    // e.preventDefault();
-    // let userDetails = { id, firstName, lastName, password };
-    // console.log(userDetails);
-    // fetch("http://localhost:3001/users", {
-    //   method: "POST",
-    //   headers: { "content-type": "application/json" },
-    //   body: JSON.stringify(userDetails),
-    // })
-    //   .then((res) => {
-    //     // console.log("Registered successfully");
-    //     // setShowAlert(true);
-    //     setTimeout(() => {
-    //       // setShowAlert(false);
-    //       navigate("/login");
-    //     }, 3000);
-    //   })
-    //   .catch((err) => {
-    //     console.log(err.message);
-    //   });
+  const handleRegister = (e) => {
+    e.preventDefault();
+    let userDetails = { id, password };
+    console.log(userDetails);
+    fetch("http://localhost:8080/users", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(userDetails),
+    })
+      .then((res) => {
+        console.log("Registered successfully");
+        setShowAlert(true);
+        setAlertMsg("Registration Successfull. Redirecting...");
+        setSeverity("success");
+
+        setTimeout(() => {
+          setShowAlert(false);
+          navigate("/");
+        }, 3000);
+
+        // setShowAlert(true);
+        // setTimeout(() => {
+        // setShowAlert(false);
+        // navigate("/login");
+        // }, 3000);
+      })
+      .catch((err) => {
+        console.log(err.message);
+
+        setShowAlert(true);
+        setAlertMsg(err.message);
+        setSeverity("error");
+
+        setTimeout(() => {
+          setShowAlert(false);
+        }, 5000);
+      });
   };
+
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+      confirmPassword: "",
+      termsOfService: false,
+    },
+    validationSchema: validationSchema,
+    onSubmit: (values) => {
+      handleRegister(values);
+      console.log("on submit", values);
+      // alert(JSON.stringify(values, null, 2));
+    },
+  });
 
   return (
     <>
@@ -101,146 +127,125 @@ const Register = () => {
             Sign Up
           </Typography>
 
-          <Formik
-            initialValues={{ ...INITIAL_FORM_STATE }}
-            validationSchema={FORM_VALIDATION}
-            onSubmit={(values) => {
-              console.log(values);
-            }}
-          >
-            <Form action="POST">
-              {/* <AlertMsg /> */}
-              <Grid container spacing={2} className="mt">
-                <Grid item xs={12}>
-                  <TextBox
-                    id="email"
-                    label="Email Address"
-                    name="email"
-                    autoComplete="email"
-                    autoFocus
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextBox
-                    id="password"
-                    label="Password"
-                    name="password"
-                    type="password"
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextBox
-                    id="confirmPassword"
-                    label="Confirm Password"
-                    name="confirmPassword"
-                    type="password"
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <CheckBox
-                    name="termsOfService"
-                    // legend="Terms of Service"
-                    label="I agree to the Terms and Conditions"
-                  />
-                </Grid>
-
-                <Grid item xs={12}>
-                  <PrimaryButton
-                    type="submit"
-                    variant="contained"
-                    fullWidth
-                    onCLick={handleSubmit}
-                  >
-                    Sign Up
-                  </PrimaryButton>
-                </Grid>
-                <Grid item xs={12}>
-                  <Typography className="center-text">
-                    Already a member?
-                    <Link to="/login" className="link ml">
-                      &nbsp;Sign In
-                    </Link>
-                  </Typography>
-                </Grid>
+          <form onSubmit={formik.handleSubmit}>
+            {showAlert && (
+              <Alert severity={severity} sx={{ mb: "1rem" }}>
+                {alertMsg}
+              </Alert>
+            )}
+            <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <TextField
+                  fullWidth
+                  id="email"
+                  name="email"
+                  label="Email Address"
+                  size="small"
+                  // value={id}
+                  // onChange={(e) => {
+                  //   setId(e.target.value);
+                  // }}
+                  value={formik.values.email}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  error={formik.touched.email && Boolean(formik.errors.email)}
+                  helperText={formik.touched.email && formik.errors.email}
+                />
+                {/* <TextBox
+                  id="email"
+                  label="Email Address"
+                  name="email"
+                  autoComplete="email"
+                  value={id}
+                  onChange={(e) => {
+                    setId(e.target.value);
+                  }}
+                  // autoFocus
+                /> */}
               </Grid>
-            </Form>
-          </Formik>
+              <Grid item xs={12}>
+                <TextField
+                  fullWidth
+                  id="password"
+                  name="password"
+                  label="Password"
+                  type="password"
+                  size="small"
+                  value={formik.values.password}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  error={
+                    formik.touched.password && Boolean(formik.errors.password)
+                  }
+                  helperText={formik.touched.password && formik.errors.password}
+                />
+                {/* <TextBox
+                  id="password"
+                  label="Password"
+                  name="password"
+                  type="password"
+                  value={password}
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                  }}
+                /> */}
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  fullWidth
+                  id="confirmPassword"
+                  name="confirmPassword"
+                  label="Confirm Password"
+                  type="password"
+                  size="small"
+                  value={formik.values.confirmPassword}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  error={
+                    formik.touched.confirmPassword &&
+                    Boolean(formik.errors.confirmPassword)
+                  }
+                  helperText={
+                    formik.touched.confirmPassword &&
+                    formik.errors.confirmPassword
+                  }
+                />
+                {/* <TextBox
+                  id="confirmPassword"
+                  label="Confirm Password"
+                  name="confirmPassword"
+                  type="password"
+                  // value={confirmPassword}
+                  // onChange={(e) => {
+                  //   setConfirmPassword(e.target.value);
+                  // }}
+                /> */}
+              </Grid>
+              <Grid item xs={12} sx={{ mt: "1rem" }}>
+                <PrimaryButton type="submit" variant="contained" fullWidth>
+                  Sign Up
+                </PrimaryButton>
+              </Grid>
+              <Grid item xs={12} sx={{ mt: "1rem" }}>
+                <Typography className="center-text">
+                  Already a member?
+                  <Link
+                    to="/login"
+                    style={{
+                      marginLeft: "0.3rem",
+                      color: "#706fec",
+                      textDecoration: "none",
+                      fontWeight: "500",
+                    }}
+                  >
+                    Sign In
+                  </Link>
+                </Typography>
+              </Grid>
+            </Grid>
+          </form>
         </Box>
       </Container>
-
-      {/* <div className="container">
-        {showAlert && (
-          <Alert
-            bgColor="alert-bg-light-green"
-            textColor="alert-text-dark-green"
-            message="You were registered successfully"
-          />
-        )}
-        <form className="card" onSubmit={handleSubmit}>
-          <h2 className="card-header">Sign Up</h2>
-          <div className="card-body">
-            <div className="flex-container">
-              <div className="flex-item">
-                <TextBox
-                  type="text"
-                  label="First Name *"
-                  value={firstName}
-                  onChange={(e) => {
-                    setFirstName(e.target.value);
-                  }}
-                  required
-                />
-              </div>
-              <div className="flex-item">
-                <TextBox
-                  type="text"
-                  label="Last Name *"
-                  value={lastName}
-                  onChange={(e) => {
-                    setLastName(e.target.value);
-                  }}
-                  required
-                />
-              </div>
-            </div>
-            <div className="input-container">
-              <TextBox
-                label="Username *"
-                value={id}
-                onChange={(e) => {
-                  setId(e.target.value);
-                }}
-                required
-              />
-            </div>
-            <div className="input-container">
-              <TextBox
-                type="password"
-                label="Password *"
-                value={password}
-                onChange={(e) => {
-                  setPassword(e.target.value);
-                }}
-                pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$"
-                required
-              />
-              <div className="notice-container">
-                <p className="fs-14">
-                  <strong>Note:</strong> Your password must contain minimum
-                  eight characters, at least one uppercase letter, one lowercase
-                  letter and one number:
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="card-footer">
-            <PrimaryButton type="submit">Register</PrimaryButton>
-            <p className="mt-1 link-sm">
-              Already have an account? <a href="/login">Login here</a>
-            </p>
-          </div>
-        </form>
-      </div> */}
     </>
   );
 };
