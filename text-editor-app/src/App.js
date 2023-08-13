@@ -16,12 +16,15 @@ import Navbar from "./components/Navbar";
 import ViewAllDocuments from "./pages/ViewAllDocuments";
 import ProtectedUser from "./routes/protectedRoutes/ProtectedUser";
 import PublicUser from "./routes/protectedRoutes/PublicUser";
+import { CssBaseline, ThemeProvider, createTheme } from "@mui/material";
+import { useMemo } from "react";
+import { themeSettings } from "./theme";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
       <Route path="/" element={<PublicUser />}>
-        <Route path="login" element={<Login />} />
+        <Route path="/" element={<Login />} />
         <Route path="register" element={<Register />} />
       </Route>
 
@@ -36,10 +39,12 @@ const router = createBrowserRouter(
 );
 
 function App() {
+  const theme = createTheme(themeSettings());
   return (
-    <div className="app">
-    <RouterProvider router={router} />
-    </div>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <RouterProvider router={router} />
+    </ThemeProvider>
   );
 }
 

@@ -1,4 +1,4 @@
-import { Box, Grid, TextField } from "@mui/material";
+import { Box, Grid, TextField, useMediaQuery } from "@mui/material";
 import React, { useState } from "react";
 import CardWrapper from "../components/CardWrapper";
 import {
@@ -11,6 +11,7 @@ import FlexEnd from "../components/FlexEnd";
 import PrimaryButton from "../components/PrimaryButton";
 import TextFormatButton from "../components/TextFormatButton";
 import Navbar from "../components/Navbar";
+import { useTheme } from "@emotion/react";
 
 const Home = () => {
   const [isBold, setBold] = useState(false);
@@ -18,6 +19,13 @@ const Home = () => {
   const [isUnderlined, setUnderlined] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [isEditClicked, setIsEditClicked] = useState(false);
+  const [value, setValue] = useState("");
+
+  const isNonMobile = useMediaQuery("(min-width:480px)");
+  const { palette } = useTheme();
+  const primaryMain = palette.primary.main;
+  const primaryDark = palette.primary.dark;
+  const backgroundDefault = palette.background.default;
 
   const handleBold = () => {
     isBold ? setBold(false) : setBold(true);
@@ -32,9 +40,10 @@ const Home = () => {
     console.log(isUnderlined);
   };
 
-  const handleChange = () => {};
+  const handleSave = (e) => {
+    localStorage.setItem("Text Input", e.textInput);
+  };
 
-  const handleSave = () => {};
   const handleCreate = () => {};
   const handleEdit = () => {};
   const handleEditClicked = () => {
@@ -42,9 +51,9 @@ const Home = () => {
     console.log(isEditClicked);
   };
   return (
-    <Box height="100vh">
+    <Box height="100%" bgcolor={backgroundDefault}>
       <Navbar />
-      <Box padding="2rem 3rem">
+      <Box padding={isNonMobile ? "2rem 3rem" : "1rem 1rem"}>
         <Grid container spacing={3}>
           <Grid item xs={12} md={7}>
             <CardWrapper gap="1rem">
@@ -68,11 +77,13 @@ const Home = () => {
               <TextField
                 id="textInput"
                 name="textInput"
-                onChange={handleChange}
-                //   value={(e)=>{e.target.value}}
                 multiline
-                minRows={12}
+                minRows={isNonMobile ? 12 : 15}
                 variant="outlined"
+                value={value}
+                onChange={(e) => {
+                  setValue(e.target.value);
+                }}
                 contentEditable
               />
               <FlexEnd width="100%" gap="0.5rem">
@@ -106,9 +117,11 @@ const Home = () => {
               </FlexEnd>
             </CardWrapper>
           </Grid>
-          <Grid item xs={12} md={5}>
-            <DocumentList handleEditClicked={handleEditClicked} />
-          </Grid>
+          {isNonMobile && (
+            <Grid item xs={12} md={5}>
+              <DocumentList handleEditClicked={handleEditClicked} />
+            </Grid>
+          )}
         </Grid>
       </Box>
     </Box>

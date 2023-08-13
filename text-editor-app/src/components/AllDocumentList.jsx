@@ -1,6 +1,13 @@
 import React, { useState } from "react";
 import CardWrapper from "./CardWrapper";
-import { Box, Button, Divider, IconButton, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Divider,
+  IconButton,
+  Typography,
+  useTheme,
+} from "@mui/material";
 import FlexEnd from "./FlexEnd";
 import { EditOutlined } from "@mui/icons-material";
 import FlexBetween from "./FlexBetween";
@@ -8,6 +15,9 @@ import PrimaryButton from "./PrimaryButton";
 import { useNavigate } from "react-router-dom";
 
 const AllDocumentList = ({ handleOpenDocument }) => {
+  const { palette } = useTheme();
+  const primaryLight = palette.primary.light;
+
   const navigate = useNavigate();
 
   return (
@@ -23,7 +33,11 @@ const AllDocumentList = ({ handleOpenDocument }) => {
 
       <Divider />
       <Box mt="0.5rem" display="flex" flexDirection="column">
-        <Box padding="1rem" bgcolor="#f1f6fb" borderBottom="1px solid #5a5a5a">
+        <Box
+          padding="1rem"
+          bgcolor={primaryLight}
+          borderBottom="1px solid #5a5a5a"
+        >
           <Typography mb="0.5rem" fontSize="14px" fontWeight="600">
             Document Title
           </Typography>

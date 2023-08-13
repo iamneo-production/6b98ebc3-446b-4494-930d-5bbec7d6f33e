@@ -9,6 +9,8 @@ import {
   Grid,
   TextField,
   Typography,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import PrimaryButton from "../../components/PrimaryButton";
@@ -27,6 +29,11 @@ const validationSchema = Yup.object().shape({
 
 const Login = () => {
   const navigate = useNavigate();
+  const isNonMobile = useMediaQuery("(min-width:480px)");
+  const { palette } = useTheme();
+  const primaryMain = palette.primary.main;
+  const primaryDark = palette.primary.dark;
+  const backgroundDefault = palette.background.default;
 
   // useEffect(() => {
   //   const email = sessionStorage.getItem("email");
@@ -120,21 +127,29 @@ const Login = () => {
   });
 
   return (
-    <>
-      <Container component="main" maxWidth="xs" className="center-container">
+    <Box height="100vh" bgcolor={isNonMobile ? backgroundDefault : "#fff"}>
+      <Container
+        maxWidth="xs"
+        className="center-container"
+        sx={{
+          boxShadow: isNonMobile
+            ? "0px 1px 5px rgba(0, 0, 0, 0.12), 0px 2px 2px rgba(0, 0, 0, 0.14), 0px 1px 1px rgba(0, 0, 0, 0.2);"
+            : "none",
+          borderRadius: isNonMobile ? "0.5rem" : "none",
+        }}
+      >
         <Box display="flex" flexDirection="column" alignItems="center">
           <Typography
             variant="h5"
             noWrap
-            component="a"
-            href="/"
             sx={{
               mr: 2,
               display: { xs: "flex" },
               flexGrow: 1,
-              fontWeight: 700,
-              letterSpacing: ".3rem",
-              color: "inherit",
+              fontSize: "24px",
+              fontWeight: 600,
+              letterSpacing: ".1rem",
+              color: primaryDark,
               textDecoration: "none",
             }}
           >
@@ -191,14 +206,14 @@ const Login = () => {
                   Sign In
                 </PrimaryButton>
               </Grid>
-              <Grid item xs={12} sx={{ mt: "1rem" }}>
-                <Typography className="center-text">
+              <Grid item xs={12} sx={{ mt: "1rem", textAlign: "center" }}>
+                <Typography>
                   Don't have an account?
                   <Link
                     to="/register"
                     style={{
                       marginLeft: "0.3rem",
-                      color: "#706fec",
+                      color: primaryMain,
                       textDecoration: "none",
                       fontWeight: "500",
                     }}
@@ -211,7 +226,7 @@ const Login = () => {
           </form>
         </Box>
       </Container>
-    </>
+    </Box>
   );
 };
 

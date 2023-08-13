@@ -14,8 +14,10 @@ import {
   Grid,
   TextField,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
 import CheckBox from "../../components/CheckBox";
+import { useTheme } from "@emotion/react";
 
 const validationSchema = Yup.object().shape({
   email: Yup.string()
@@ -36,6 +38,12 @@ const validationSchema = Yup.object().shape({
 });
 
 const Register = () => {
+  const isNonMobile = useMediaQuery("(min-width:480px)");
+  const { palette } = useTheme();
+  const primaryMain = palette.primary.main;
+  const primaryDark = palette.primary.dark;
+  const backgroundDefault = palette.background.default;
+
   const [showAlert, setShowAlert] = useState(false);
   const [alertMsg, setAlertMsg] = useState("");
   const [severity, setSeverity] = useState("");
@@ -99,22 +107,29 @@ const Register = () => {
 
   console.log("errors", formik.errors);
   return (
-    <>
-      <Container component="main" maxWidth="xs" className="center-container">
-        <CssBaseline />
+    <Box height="100vh" bgcolor={isNonMobile ? backgroundDefault : "#fff"}>
+      <Container
+        maxWidth="xs"
+        className="center-container"
+        sx={{
+          boxShadow: isNonMobile
+            ? "0px 1px 5px rgba(0, 0, 0, 0.12), 0px 2px 2px rgba(0, 0, 0, 0.14), 0px 1px 1px rgba(0, 0, 0, 0.2);"
+            : "none",
+          borderRadius: isNonMobile ? "0.5rem" : "none",
+        }}
+      >
         <Box display="flex" flexDirection="column" alignItems="center">
           <Typography
             variant="h5"
             noWrap
-            component="a"
-            href="/"
             sx={{
               mr: 2,
               display: { xs: "flex" },
               flexGrow: 1,
-              fontWeight: 700,
-              letterSpacing: ".3rem",
-              color: "inherit",
+              fontSize: "24px",
+              fontWeight: 600,
+              letterSpacing: ".1rem",
+              color: primaryDark,
               textDecoration: "none",
             }}
           >
@@ -127,32 +142,31 @@ const Register = () => {
             Sign Up
           </Typography>
 
-          <Formik>
-            <form onSubmit={formik.handleSubmit}>
-              {showAlert && (
-                <Alert severity={severity} sx={{ mb: "1rem" }}>
-                  {alertMsg}
-                </Alert>
-              )}
-              <Grid container spacing={2}>
-                <Grid item xs={12}>
-                  <TextField
-                    fullWidth
-                    id="email"
-                    name="email"
-                    label="Email Address"
-                    size="small"
-                    // value={id}
-                    // onChange={(e) => {
-                    //   setId(e.target.value);
-                    // }}
-                    value={formik.values.email}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    error={formik.touched.email && Boolean(formik.errors.email)}
-                    helperText={formik.touched.email && formik.errors.email}
-                  />
-                  {/* <TextBox
+          <form onSubmit={formik.handleSubmit}>
+            {showAlert && (
+              <Alert severity={severity} sx={{ mb: "1rem" }}>
+                {alertMsg}
+              </Alert>
+            )}
+            <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <TextField
+                  fullWidth
+                  id="email"
+                  name="email"
+                  label="Email Address"
+                  size="small"
+                  // value={id}
+                  // onChange={(e) => {
+                  //   setId(e.target.value);
+                  // }}
+                  value={formik.values.email}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  error={formik.touched.email && Boolean(formik.errors.email)}
+                  helperText={formik.touched.email && formik.errors.email}
+                />
+                {/* <TextBox
                   id="email"
                   label="Email Address"
                   name="email"
@@ -163,26 +177,24 @@ const Register = () => {
                   }}
                   // autoFocus
                 /> */}
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    fullWidth
-                    id="password"
-                    name="password"
-                    label="Password"
-                    type="password"
-                    size="small"
-                    value={formik.values.password}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    error={
-                      formik.touched.password && Boolean(formik.errors.password)
-                    }
-                    helperText={
-                      formik.touched.password && formik.errors.password
-                    }
-                  />
-                  {/* <TextBox
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  fullWidth
+                  id="password"
+                  name="password"
+                  label="Password"
+                  type="password"
+                  size="small"
+                  value={formik.values.password}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  error={
+                    formik.touched.password && Boolean(formik.errors.password)
+                  }
+                  helperText={formik.touched.password && formik.errors.password}
+                />
+                {/* <TextBox
                   id="password"
                   label="Password"
                   name="password"
@@ -192,28 +204,28 @@ const Register = () => {
                     setPassword(e.target.value);
                   }}
                 /> */}
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    fullWidth
-                    id="confirmPassword"
-                    name="confirmPassword"
-                    label="Confirm Password"
-                    type="password"
-                    size="small"
-                    value={formik.values.confirmPassword}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    error={
-                      formik.touched.confirmPassword &&
-                      Boolean(formik.errors.confirmPassword)
-                    }
-                    helperText={
-                      formik.touched.confirmPassword &&
-                      formik.errors.confirmPassword
-                    }
-                  />
-                  {/* <TextBox
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  fullWidth
+                  id="confirmPassword"
+                  name="confirmPassword"
+                  label="Confirm Password"
+                  type="password"
+                  size="small"
+                  value={formik.values.confirmPassword}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  error={
+                    formik.touched.confirmPassword &&
+                    Boolean(formik.errors.confirmPassword)
+                  }
+                  helperText={
+                    formik.touched.confirmPassword &&
+                    formik.errors.confirmPassword
+                  }
+                />
+                {/* <TextBox
                   id="confirmPassword"
                   label="Confirm Password"
                   name="confirmPassword"
@@ -223,34 +235,33 @@ const Register = () => {
                   //   setConfirmPassword(e.target.value);
                   // }}
                 /> */}
-                </Grid>
-                <Grid item xs={12} sx={{ mt: "1rem" }}>
-                  <PrimaryButton type="submit" variant="contained" fullWidth>
-                    Sign Up
-                  </PrimaryButton>
-                </Grid>
-                <Grid item xs={12} sx={{ mt: "1rem" }}>
-                  <Typography className="center-text">
-                    Already a member?
-                    <Link
-                      to="/login"
-                      style={{
-                        marginLeft: "0.3rem",
-                        color: "#706fec",
-                        textDecoration: "none",
-                        fontWeight: "500",
-                      }}
-                    >
-                      Sign In
-                    </Link>
-                  </Typography>
-                </Grid>
               </Grid>
-            </form>
-          </Formik>
+              <Grid item xs={12} sx={{ mt: "1rem" }}>
+                <PrimaryButton type="submit" variant="contained" fullWidth>
+                  Sign Up
+                </PrimaryButton>
+              </Grid>
+              <Grid item xs={12} sx={{ mt: "1rem", textAlign: "center" }}>
+                <Typography className="center-text">
+                  Already a member?
+                  <Link
+                    to="/"
+                    style={{
+                      marginLeft: "0.3rem",
+                      color: primaryMain,
+                      textDecoration: "none",
+                      fontWeight: "500",
+                    }}
+                  >
+                    Sign In
+                  </Link>
+                </Typography>
+              </Grid>
+            </Grid>
+          </form>
         </Box>
       </Container>
-    </>
+    </Box>
   );
 };
 

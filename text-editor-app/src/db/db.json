@@ -5,7 +5,8 @@
         "password": "Dave@1234",
         "documents": [
           {
-            "id": 1,
+            "uid": "dave@gmail.com",
+            "did": "1",
             "title": "Doc title",
             "desc": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus eprehenderit quas nam! Sed, possimus nihil rerum dignissimos alias deserunt? Aliquid susciped, possimus nihil rerum dignissimos alias deserunt? Aliquid suscipit"
           }
@@ -13,7 +14,15 @@
       },
       {
         "id": "rave@gmail.com",
-        "password": "Rave@1234"
+        "password": "Rave@1234",
+        "documents": [
+          {
+            "uid": "rave@gmail.com",
+            "did": 1,
+            "title": "Doc title",
+            "desc": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus eprehenderit quas nam! Sed, possimus nihil rerum dignissimos alias deserunt? Aliquid susciped, possimus nihil rerum dignissimos alias deserunt? Aliquid suscipit"
+          }
+        ]
       }
     ]
   }
