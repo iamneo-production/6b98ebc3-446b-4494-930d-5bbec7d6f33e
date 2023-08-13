@@ -7,13 +7,14 @@ import FlexBetween from "./FlexBetween";
 import PrimaryButton from "./PrimaryButton";
 import { useNavigate } from "react-router-dom";
 
-const DocumentList = ({ handleEditClicked }) => {
+const DocumentList = ({ data, handleDoc }) => {
   const { palette } = useTheme();
   const primaryLight = palette.primary.light;
 
   const navigate = useNavigate();
   return (
-    <CardWrapper gap="0.5rem">
+    // <CardWrapper gap="0.5rem">
+    <CardWrapper gap="0.5rem" height="470px" overflow="hidden">
       <FlexBetween>
         <Typography
           fontSize="14px"
@@ -35,7 +36,28 @@ const DocumentList = ({ handleEditClicked }) => {
       </FlexBetween>
 
       <Divider />
-      <Box mt="0.5rem" display="flex" flexDirection="column" gap="0.75rem">
+
+      {data.map((d)=> {
+         if(d !== null){
+          
+          return(
+        
+            <Box mt="0.5rem" display="flex" flexDirection="column" gap="0.75rem">
+            <Box padding="1rem" border="1px solid #b5b5b5" borderRadius="0.5rem" height="70px">
+              <h5>{d.name}</h5>
+              <FlexEnd>
+                <PrimaryButton variant="outlined" size="small" onClick={()=> handleDoc(d.note)}>
+                  Edit
+                </PrimaryButton>
+              </FlexEnd>
+            </Box>
+          </Box>)
+         }
+       
+      })}
+      
+
+      {/* <Box mt="0.5rem" display="flex" flexDirection="column" gap="0.75rem">
         <Box
           padding="1rem"
           bgcolor={primaryLight}
@@ -61,7 +83,7 @@ const DocumentList = ({ handleEditClicked }) => {
             </PrimaryButton>
           </FlexEnd>
         </Box>
-      </Box>
+      </Box> */}
     </CardWrapper>
   );
 };
