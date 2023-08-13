@@ -12,7 +12,7 @@ import {
   useTheme,
 } from "@mui/material";
 import { LogoutOutlined } from "@mui/icons-material";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const [isMobileMenuToggled, setIsMobileMenuToggled] = useState(false);
@@ -56,28 +56,32 @@ const Navbar = () => {
           </Typography>
 
           <Box sx={{ flexGrow: 0, display: "flex", gap: "1.5rem", mr: "1rem" }}>
-            <Link
+            <NavLink
               to={"/home"}
-              style={{
-                my: 2,
-                color: "#706fec",
-                display: "block",
-                textDecoration: "none",
+              style={({ isActive }) => {
+                return {
+                  color: isActive ? primaryDark : primaryMain,
+                  fontWeight: "600",
+                  textDecoration: "none",
+                  display: "block",
+                };
               }}
             >
               Home
-            </Link>
-            <Link
+            </NavLink>
+            <NavLink
               to={"/view-all-documents"}
-              style={{
-                my: 2,
-                color: "#706fec",
-                display: "block",
-                textDecoration: "none",
+              style={({ isActive }) => {
+                return {
+                  color: isActive ? primaryDark : primaryMain,
+                  fontWeight: "600",
+                  textDecoration: "none",
+                  display: "block",
+                };
               }}
             >
               Documents
-            </Link>
+            </NavLink>
           </Box>
           <Box sx={{ flexGrow: 0, display: "flex" }}>
             <Tooltip title="Logout">
