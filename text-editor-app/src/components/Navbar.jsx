@@ -24,13 +24,6 @@ const Navbar = () => {
 
   const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   const email = sessionStorage.getItem("email");
-  //   if (email === "" || email === null) {
-  //     navigate("/login");
-  //   }
-  // }, []);
-
   return (
     <AppBar position="static" sx={{ backgroundColor: "#fff" }}>
       <Container maxWidth="xl">
@@ -90,7 +83,6 @@ const Navbar = () => {
                   sessionStorage.clear();
                   navigate("/");
                 }}
-                // sx={{ display: "block" }}
               >
                 <LogoutOutlined sx={{ color: "#706fec" }} />
               </IconButton>

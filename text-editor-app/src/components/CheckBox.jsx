@@ -7,7 +7,6 @@ import {
   } from "@mui/material";
   import { useField, useFormikContext } from "formik";
   import React from "react";
-  // import "../../../pages/authentication/styles.css";
   
   const CheckBox = ({ name, label, legend, ...otherProps }) => {
     const { setFieldValue } = useFormikContext();
@@ -31,7 +30,7 @@ import {
   
     return (
       <FormControl
-      //  {...configFormControl}
+        {...configFormControl}
       >
         <FormLabel component="legend">{legend}</FormLabel>
         <FormGroup>

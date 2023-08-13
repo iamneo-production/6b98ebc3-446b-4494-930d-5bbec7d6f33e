@@ -35,19 +35,7 @@ const Login = () => {
   const primaryDark = palette.primary.dark;
   const backgroundDefault = palette.background.default;
 
-  // useEffect(() => {
-  //   const email = sessionStorage.getItem("email");
-  //   if (email != "" || email != null) {
-  //     navigate("/");
-  //   }
-  // else {
-  //   sessionStorage.clear();
-  // }
-  // }, []);
 
-  // useEffect(() => {
-  //   sessionStorage.clear();
-  // }, []);
 
   const [showAlert, setShowAlert] = useState(false);
   const [alertMsg, setAlertMsg] = useState("");
@@ -122,7 +110,6 @@ const Login = () => {
     onSubmit: (values) => {
       handleLogin(values);
       console.log("on submit", values);
-      // alert(JSON.stringify(values, null, 2));
     },
   });
 

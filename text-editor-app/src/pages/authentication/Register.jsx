@@ -32,9 +32,7 @@ const validationSchema = Yup.object().shape({
   confirmPassword: Yup.string()
     .required("Please confirm your password.")
     .oneOf([Yup.ref("password"), null], "Passwords must match"),
-  // termsOfService: Yup.boolean()
-  //   .oneOf([true], "Please read and agree to the terms and conditions.")
-  //   .required("Please read and agree to the terms and conditions."),
+
 });
 
 const Register = () => {
@@ -70,12 +68,6 @@ const Register = () => {
           setShowAlert(false);
           navigate("/home");
         }, 3000);
-
-        // setShowAlert(true);
-        // setTimeout(() => {
-        // setShowAlert(false);
-        // navigate("/login");
-        // }, 3000);
       })
       .catch((err) => {
         console.log(err.message);
@@ -95,13 +87,11 @@ const Register = () => {
       email: "",
       password: "",
       confirmPassword: "",
-      // termsOfService: false,
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
       handleRegister(values);
       console.log("on submit", values);
-      // alert(JSON.stringify(values, null, 2));
     },
   });
 
@@ -156,27 +146,14 @@ const Register = () => {
                   name="email"
                   label="Email Address"
                   size="small"
-                  // value={id}
-                  // onChange={(e) => {
-                  //   setId(e.target.value);
-                  // }}
+                 
                   value={formik.values.email}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   error={formik.touched.email && Boolean(formik.errors.email)}
                   helperText={formik.touched.email && formik.errors.email}
                 />
-                {/* <TextBox
-                  id="email"
-                  label="Email Address"
-                  name="email"
-                  autoComplete="email"
-                  value={id}
-                  onChange={(e) => {
-                    setId(e.target.value);
-                  }}
-                  // autoFocus
-                /> */}
+            
               </Grid>
               <Grid item xs={12}>
                 <TextField
@@ -194,16 +171,6 @@ const Register = () => {
                   }
                   helperText={formik.touched.password && formik.errors.password}
                 />
-                {/* <TextBox
-                  id="password"
-                  label="Password"
-                  name="password"
-                  type="password"
-                  value={password}
-                  onChange={(e) => {
-                    setPassword(e.target.value);
-                  }}
-                /> */}
               </Grid>
               <Grid item xs={12}>
                 <TextField
@@ -225,16 +192,7 @@ const Register = () => {
                     formik.errors.confirmPassword
                   }
                 />
-                {/* <TextBox
-                  id="confirmPassword"
-                  label="Confirm Password"
-                  name="confirmPassword"
-                  type="password"
-                  // value={confirmPassword}
-                  // onChange={(e) => {
-                  //   setConfirmPassword(e.target.value);
-                  // }}
-                /> */}
+               
               </Grid>
               <Grid item xs={12} sx={{ mt: "1rem" }}>
                 <PrimaryButton type="submit" variant="contained" fullWidth>
