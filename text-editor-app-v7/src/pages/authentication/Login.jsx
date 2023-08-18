@@ -49,9 +49,9 @@ const Login = () => {
         return res.json();
       })
       .then((resp) => {
-        console.log(resp);
+     
         if (Object.keys(resp).length === 0) {
-          console.log("Invalid username.");
+          
 
           setShowAlert(true);
           setAlertMsg("Invalid credentials. Please check again.");

@@ -37,9 +37,7 @@ import Axios from "axios";
 const Home = ({ data, handleDoc }) => {
   const [name, setName] = useState("");
   const [open, setOpen] = React.useState(false);
-  const [user, setUser] = useState("dave@gmail.com");
-  // const [isEdit, setIsEdit] = useState(false);
-  // const [isEditClicked, setIsEditClicked] = useState(false);
+
   const [size, setSize] = useState("4");
   const [notes, setNotes] = useState([]);
   const [content, setContent] = useState("");
@@ -48,6 +46,11 @@ const Home = ({ data, handleDoc }) => {
   const { palette } = useTheme();
   const primaryMain = palette.primary.main;
   const backgroundDefault = palette.background.default;
+
+  const [isExist, setIsExist] = useState(false);
+  const [resMsg, setResMsg] = useState('');
+  
+  const [noteId, setNoteId] = useState(0);
 
   const formatNote = (cmd, value = null) => {
     if (value) {
@@ -58,22 +61,34 @@ const Home = ({ data, handleDoc }) => {
   };
 
   // Milshan, Thisarani
+
+  const handleUpdate = ()=>{
+    const data = {note: content}
+     Axios.patch(`http://localhost:8080/documents/${noteId}`, data).then((res)=>{
+        
+        setResMsg('Your note successfuly Updated.');
+        setContent('');
+        setIsExist(false);
+        document.getElementById('editor').innerHTML = "";
+
+     });
+
+  }
+
   useEffect(() => {
-    Axios.get(`http://localhost:8080/documents?userId=${user}`).then((res) => {
-      console.log(res.data);
+    const email = sessionStorage.getItem("email");
+    Axios.get(`http://localhost:8080/documents?userId=${email}`).then((res) => {
+    
       setNotes(res.data);
     });
-  }, [user]);
+  }, [isExist, open]);
 
   const handleNote = () => {
     const doc = document.getElementById("editor")?.innerHTML + "";
     setContent(doc);
-    console.log("editing...");
-    console.log(doc);
   };
 
   const handleSize = (event) => {
-    console.log(event.target.value);
     setSize(event.target.value);
     formatNote("fontSize", event.target.value);
   };
@@ -88,22 +103,25 @@ const Home = ({ data, handleDoc }) => {
   };
 
   const handleSave = (e) => {
-    const data = { name: name, note: content, userId: "dave@gmail.com" };
+    const email = sessionStorage.getItem("email");
+
+    const data = { name: name, note: content, userId: email };
     Axios.post("http://localhost:8080/documents", data).then((res) => {
-      console.log(res, "response eka ......");
+  
       setOpen(false);
+      setIsExist(false);
     });
   };
 
   // Milshan
-  const handleDocs = (n) => {
-    console.log(n);
-    document.getElementById("editor").innerHTML = n;
+  const handleDocs = (n, id) => {
+    setIsExist(true);
+    setNoteId(id);
+    document.getElementById('editor').innerHTML = n;
     setContent(n);
   };
 
   const handleName = (event) => {
-    console.log(event.target.value);
     setName(event.target.value);
   };
 
@@ -215,13 +233,20 @@ const Home = ({ data, handleDoc }) => {
 
               {/* dinethi */}
               <FlexEnd width="100%" gap="0.5rem">
-                <PrimaryButton
+              {!isExist && <PrimaryButton
                   variant="contained"
                   size="small"
                   onClick={handleClickOpen}
                 >
                   Save Changes
-                </PrimaryButton>
+                </PrimaryButton>}
+                {isExist && <PrimaryButton
+                  variant="contained"
+                  size="small"
+                  onClick={handleUpdate}
+                >
+                  Update Changes
+                </PrimaryButton>}
               </FlexEnd>
             </CardWrapper>
           </Grid>
@@ -229,9 +254,9 @@ const Home = ({ data, handleDoc }) => {
           {/* milshan */}
           {isNonMobile && (
             <Grid item xs={12} md={5}>
-              {notes.length !== 0 && (
+              
                 <DocumentList data={notes} handleDoc={handleDocs} />
-              )}
+              
             </Grid>
           )}
         </Grid>

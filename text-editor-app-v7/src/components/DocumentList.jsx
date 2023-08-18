@@ -43,6 +43,7 @@ const DocumentList = ({ data, handleDoc }) => {
           if (d !== null) {
             return (
               <Box
+                key={d.id}
                 mt="0.5rem"
                 display="flex"
                 flexDirection="column"
@@ -66,7 +67,7 @@ const DocumentList = ({ data, handleDoc }) => {
                   <PrimaryButton
                     variant="outlined"
                     size="small"
-                    onClick={() => handleDoc(d.note)}
+                    onClick={() => handleDoc(d.note, d.id)}
                   >
                     Edit
                   </PrimaryButton>

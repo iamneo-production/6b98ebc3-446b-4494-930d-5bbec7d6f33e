@@ -1,21 +1,30 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import CardWrapper from "./CardWrapper";
 import { Box, Divider, Typography, useTheme } from "@mui/material";
 import FlexEnd from "./FlexEnd";
 import FlexBetween from "./FlexBetween";
 import PrimaryButton from "./PrimaryButton";
 import { useNavigate } from "react-router-dom";
+import Axios  from "axios";
 
 const AllDocumentList = ({ data, handleDoc }) => {
   const { palette } = useTheme();
   const primaryLight = palette.primary.light;
+  const [notes, setNotes] = useState([]);
 
   const navigate = useNavigate();
 
+  useEffect(() => {
+    const email = sessionStorage.getItem("email");
+     Axios.get(`http://localhost:8080/documents?userId=${email}`).then((res) => {
+     setNotes(res.data);
+     })
+  },[])
+
   return (
     <>
-      {/* <DocumentList data={notes} handleDoc={handleDocs}/> */}
-      <CardWrapper gap="0.5rem" minHeight="100%">
+     
+      <CardWrapper  minHeight="100%">
         <Typography
           fontSize="14px"
           fontWeight="600"
@@ -25,11 +34,11 @@ const AllDocumentList = ({ data, handleDoc }) => {
           All Documents
         </Typography>
 
-        <Divider />
-        {/* {data.map((d) => {
+        <Divider sx={{mb: "1rem", mt:"0.5rem"}} />
+        {notes.slice(0).reverse().map((d) => {
           if (d !== null) {
-            return ( */}
-        <Box mt="0.5rem" display="flex" flexDirection="column">
+            return (
+        <Box key={d.id} display="flex" flexDirection="column">
           <FlexBetween
             padding="1rem"
             bgcolor={primaryLight}
@@ -40,20 +49,10 @@ const AllDocumentList = ({ data, handleDoc }) => {
               fontSize="14px"
               fontWeight="600"
             >
-              Document Title
-              {/* {d.name} */}
+             
+            {d.name}
             </Typography>
-            {/* <Typography
-              maxHeight="2.5rem"
-              fontSize="12px"
-              color="#5a5a5a"
-              overflow="hidden"
-            >
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus
-              reprehenderit quas nam! Sed, possimus nihil rerum dignissimos
-              alias deserunt? Aliquid susciped, possimus nihil rerum dignissimos
-              alias deserunt? Aliquid suscipit...
-            </Typography> */}
+        
             <FlexEnd>
               <PrimaryButton
                 variant="outlined"
@@ -65,9 +64,9 @@ const AllDocumentList = ({ data, handleDoc }) => {
             </FlexEnd>
           </FlexBetween>
         </Box>
-        {/* );
+       );
           }
-        })} */}
+        })} 
       </CardWrapper>
     </>
   );
