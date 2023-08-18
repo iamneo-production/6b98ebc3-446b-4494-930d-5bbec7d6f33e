@@ -1,0 +1,50 @@
+{
+  "users": [
+    {
+      "id": "dave@gmail.com",
+      "password": "Dave@1234"
+    },
+    {
+      "id": "rave@gmail.com",
+      "password": "Rave@1234"
+    }
+  ],
+  "documents": [
+    {
+      "name": "Sample Doc 1",
+      "note": "<div><u>&nbsp; Lorem</u> ipsum dolor sit<b> amet&nbsp;</b></div>",
+      "userId": "dave@gmail.com",
+      "id": 1
+    },
+    {
+      "name": "Sample Doc 2",
+      "note": "<div><u>&nbsp; Lorem</u> ipsum dolor sit<b> amet&nbsp;</b></div>",
+      "userId": "dave@gmail.com",
+      "id": 2
+    },
+    {
+      "name": "Sample Doc 3",
+      "note": "<div><u>&nbsp; Lorem</u> ipsum dolor sit<b> amet&nbsp;</b></div>",
+      "userId": "dave@gmail.com",
+      "id": 3
+    },
+    {
+      "name": "Sample Doc 4",
+      "note": "<div><u>&nbsp; Lorem</u> ipsum dolor sit<b> amet&nbsp;</b></div>",
+      "userId": "dave@gmail.com",
+      "id": 4
+    },
+    {
+      "name": "Sample Doc 5",
+      "note": "<div><u>&nbsp; Lorem</u> ipsum dolor sit<b> amet&nbsp;</b></div>",
+      "userId": "dave@gmail.com",
+      "id": 5
+    },
+    {
+      "name": "Sample Doc 6",
+      "note": "<div><u>&nbsp; Lorem</u> ipsum dolor sit<b> amet&nbsp;</b></div>",
+      "userId": "dave@gmail.com",
+      "id": 6
+    }
+  ]
+}
